@@ -19,13 +19,13 @@ GIU · Data Engineering and Visualization · Winter 2026 · Project Milestone 1
 
 ```
 .
-├── app.py                       # Dash website (filters, search, Generate Report, story, 12 charts)
+├── app.py                       # Dash website (filters, search, Generate Report, story, 10 charts)
 ├── assets/style.css             # site styling (Dash loads it automatically)
 ├── data/
 │   ├── processed/               # REAL aggregated tables exported by the notebook (commit these)
 │   └── sample/                  # synthetic demo tables (used only when processed/ is empty)
 ├── notebook/
-│   └── blocks_and_streets.ipynb # full pipeline: EDA, cleaning, integration, 12 RQs, export
+│   └── blocks_and_streets.ipynb # full pipeline: EDA, cleaning, integration, 10 RQs, export
 ├── requirements.txt             # website dependencies
 ├── render.yaml / Procfile       # deployment config (Render / Heroku)
 └── README.md
@@ -39,7 +39,7 @@ GIU · Data Engineering and Visualization · Winter 2026 · Project Milestone 1
 1. Open `notebook/blocks_and_streets.ipynb` in **Google Colab** (File → Upload notebook) or Jupyter.
 2. *Optional:* set a free Socrata app token to avoid rate limits: `os.environ["SOCRATA_APP_TOKEN"] = "..."`.
 3. **Runtime → Run all.** The notebook downloads 24 monthly slices of each dataset through the SoQL API (about 15 to 30 minutes the first
-   time; cached as parquet afterwards), cleans, integrates, answers the 12 research questions and exports 5 small tables.
+   time; cached as parquet afterwards), cleans, integrates, answers the 10 research questions and exports 5 small tables.
 4. In Colab the last cell downloads `processed.zip`. Unzip it into `data/processed/` in this repo and commit.
 
 ### 2. Run the website locally
@@ -67,9 +67,9 @@ Free Render instances sleep after inactivity; the first request after a pause ta
 |---|---|
 | Multiple dropdown filters | Borough (multi), Year, Housing problem type, Vehicle involved, Street metric |
 | Search mode | Free text such as `Brooklyn 2025 heat trucks` or `Bronx pedestrian mold`; recognised terms appear as chips and set the dropdowns |
-| Central **Generate Report** button | Rebuilds all 12 charts, KPI tiles, findings and the ZIP table from the current filters (a search also triggers it) |
-| Variety of chart types | scatter, map, line, histogram, bars, diverging bars, box, heatmap, Lorenz curves, grouped bars |
-| Cross-domain visualizations | RQ1 scatter (housing vs crashes), RQ2 map (both indices), RQ5 to RQ12 |
+| Central **Generate Report** button | Rebuilds all 10 charts, KPI tiles, findings and the ZIP table from the current filters (a search also triggers it) |
+| Variety of chart types | scatter, map, line, histogram, bars, diverging bars, box, heatmap |
+| Cross-domain visualizations | RQ1 scatter (housing vs crashes), RQ2 map (both indices), RQ5 to RQ10 |
 | Story section | Question, data, discovery (computed live from the filtered data), limits, impact |
 | Interactivity | hover tooltips everywhere, zoom and pan, legend toggles, sortable table |
 
@@ -86,7 +86,7 @@ Free Render instances sleep after inactivity; the first request after a pause ta
 * **Two size-robust indices with different denominators** (so no shared denominator manufactures a correlation):
   * **HDI**, Housing Distress Index = urgent problems per complaining building
   * **SDI**, Street Danger Index = pedestrian and cyclist casualties per 100 crashes
-* **Statistics.** Spearman and partial Spearman (controlling for building stock), Wilcoxon, Kruskal-Wallis, chi-square, Gini.
+* **Statistics.** Spearman and partial Spearman (controlling for building stock), Wilcoxon, Kruskal-Wallis, chi-square.
 
 ---
 
@@ -104,23 +104,18 @@ Free Render instances sleep after inactivity; the first request after a pause ta
 | RQ8 | 4 | Do crashes in high-distress ZIPs happen at different hours? | hour profile lines |
 | RQ9 | 5 | When and where does combined neighborhood stress peak? | heatmap |
 | RQ10 | 5 | Did ZIPs where housing problems grew (2024 → 2025) also see injuries grow? | change scatter |
-| RQ11 | 6 | Are both burdens concentrated in the same few ZIPs? | Lorenz curves |
-| RQ12 | 6 | Which vehicles hurt pedestrians and cyclists most, and is it worse in high-distress ZIPs? | grouped bars |
-
-*4-member team: drop Members 5 and 6 (RQ9 to RQ12). 5-member team: drop Member 6 (RQ11, RQ12).*
 
 ---
 
 ## Team contributions
 
-| Member (name, ID) | Research questions & charts | Cleaning | Integration | Website |
-|---|---|---|---|---|
-| Member 1 | RQ1, RQ2 | shared geo helpers: borough, ZIP, coordinates | ZIP × month key design | map, cross-domain scatter |
-| Member 2 | RQ3, RQ4 | date parsing, study window | full-grid reindex | time-series panels |
-| Member 3 | RQ5, RQ6 | housing category standardization | housing aggregation | housing filter, search parser |
-| Member 4 | RQ7, RQ8 | repair-time outliers (IQR + 365-day cap) | post-join NaN policy | KPI tiles |
-| Member 5 | RQ9, RQ10 | crash victim-count consistency | crash aggregation | Generate Report callback |
-| Member 6 | RQ11, RQ12 | vehicle grouping, factor typos, ZIP imputation | low-volume ZIP filter | story section, deployment |
+| Member | Research questions | Visualizations | Data cleaning | Integration | Website |
+|---|---|---|---|---|---|
+| Member 1 (Mohammed Walid, 13003322) | RQ1, RQ2 | log-log scatter, burden map | shared geo helpers (borough, ZIP, coordinates) | ZIP × month key design | map + cross-domain scatter |
+| Member 2 (Abdelrahman Farajallah, 13003482) | RQ3, RQ4 | indexed line, anomaly histogram | date parsing, study window | full grid reindex (post-join) | time-series panels |
+| Member 3 (Omar Turki, 19010638) | RQ5, RQ6 | ranked bars, diverging bars | housing category standardization | housing aggregation | category filter + search parser |
+| Member 4 (Mostafa Eltatawi, 13007048) | RQ7, RQ8 | box plot, hour profile | repair-time outliers (IQR + cap) | post-join NaN policy | KPI tiles |
+| Member 5 (Ahmed Raslan, 13005475) | RQ9, RQ10 | heatmap, change scatter | crash victim counts consistency | crash aggregation | Generate Report callback |
 
 ---
 
