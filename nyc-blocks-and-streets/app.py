@@ -4,6 +4,12 @@ Reads the small pre-aggregated tables exported by the notebook (data/processed/)
 current filters when the user presses "Generate Report" (or submits a search query).
 """
 from __future__ import annotations
+from flask import Flask
+app = Flask(__name__)  # Vercel looks for this 'app' variable
+
+@app.route('/')
+def home():
+    return "Hello from Vercel!"
 
 import os
 import re
