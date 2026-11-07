@@ -8,7 +8,7 @@
   "rewrites": [
     {
       "source": "/(.*)",
-      "destination": "/app.py"
+      "destination": "nyc-blocks-and-streets/app.py"
     }
   ]
 }
