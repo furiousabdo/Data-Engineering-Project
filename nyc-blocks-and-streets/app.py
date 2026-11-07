@@ -4,12 +4,6 @@ Reads the small pre-aggregated tables exported by the notebook (data/processed/)
 current filters when the user presses "Generate Report" (or submits a search query).
 """
 from __future__ import annotations
-import Flask
-app = Flask(__name__)  # Vercel looks for this 'app' variable
-
-@app.route('/')
-def home():
-    return "Hello from Vercel!"
 
 import os
 import re
@@ -640,3 +634,6 @@ def generate_report(_clicks, boroughs, year, cat, veh, metric):
 #if __name__ == "__main__":
  #   import os
   #  app.run(debug=False, host="0.0.0.0", port=int(os.environ.get("PORT", 8050)))
+
+# Vercel serves the WSGI callable named `app`, so expose the Flask server under that name (after all callbacks are registered)
+app = server
