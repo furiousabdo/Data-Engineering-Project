@@ -1,0 +1,7 @@
+# Colab already ships most of these; install any that are missing
+pandas>=2.2
+numpy>=1.26
+plotly>=5.24
+scipy>=1.11
+statsmodels>=0.14
+pyarrow>=14
