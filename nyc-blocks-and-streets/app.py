@@ -350,41 +350,6 @@ def fig_rq10(boroughs, cat, veh):
         f"{both} ZIPs worsened on both. rho = {r:.2f} ({strength(r)}, {fmt_p(p)}). Uses both years regardless of the Year filter."
 
 
-def fig_rq11(z):
-    if len(z) < 8 or z["urgent"].sum() == 0 or z["vru_casualties"].sum() == 0:
-        return empty(), "Not enough data."
-    fig = go.Figure()
-    for col, name, color in [("urgent", "Urgent housing problems", PALETTE[1]), ("vru_casualties", "Pedestrian & cyclist casualties", PALETTE[0])]:
-        v = np.sort(z[col].to_numpy(float))
-        cum = np.insert(np.cumsum(v) / v.sum(), 0, 0)
-        x = np.linspace(0, 1, len(cum))
-        gini = 1 - 2 * np.trapezoid(cum, x)
-        fig.add_scatter(x=x * 100, y=cum * 100, mode="lines", name=f"{name} (Gini {gini:.2f})", line=dict(width=2, color=color))
-    fig.add_scatter(x=[0, 100], y=[0, 100], mode="lines", name="Equal share", line=dict(width=1, color=GRAY))
-    k = max(1, round(len(z) * 0.10))
-    a, b = set(z.nlargest(k, "urgent")["zip"]), set(z.nlargest(k, "vru_casualties")["zip"])
-    return style(fig, "% of ZIPs (least to most)", "% of total"), \
-        f"Top-10% ZIP sets ({k} each) share {len(a & b)} ZIPs (random expectation about {k * k / len(z):.1f})."
-
-
-def fig_rq12(boroughs, year, z):
-    c = _sel(C, boroughs, year).merge(z[["zip", "hdi_q"]], on="zip").dropna(subset=["hdi_q"])
-    c["tier"] = np.where(c["hdi_q"] == "Q4 (highest)", "Most distressed ZIPs (HDI Q4)", "All other ZIPs")
-    d = c.groupby(["vehicle_group", "tier"], as_index=False)[["crashes", "vru_casualties"]].sum()
-    d = d[(d["vehicle_group"] != "Other / Unknown") & (d["crashes"] >= 20)]
-    if d.empty:
-        return empty(), "Not enough data."
-    d["rate"] = 100 * d["vru_casualties"] / d["crashes"]
-    fig = px.bar(d, x="vehicle_group", y="rate", color="tier", barmode="group",
-                 category_orders={"vehicle_group": VEHICLE_ORDER, "tier": ["Most distressed ZIPs (HDI Q4)", "All other ZIPs"]},
-                 color_discrete_map={"Most distressed ZIPs (HDI Q4)": PALETTE[7], "All other ZIPs": PALETTE[0]},
-                 hover_data={"crashes": ":,", "vru_casualties": ":,"})
-    fig.update_layout(bargap=0.3, bargroupgap=0.08)
-    top = d.sort_values("rate").iloc[-1]
-    return style(fig, None, "ped & cyclist casualties per 100 crashes"), \
-        f"Highest rate: {top['vehicle_group']}, {top['tier']} ({top['rate']:.1f} per 100 crashes). Ignores the vehicle filter."
-
-
 # ----------------------------------------------------------------------------------------------------------------------
 # Search parser: free text -> filter values
 # ----------------------------------------------------------------------------------------------------------------------
@@ -454,10 +419,9 @@ RQS = [
     ("rq8", "RQ8", "Member 4", "Do crashes in high-distress ZIPs happen at different hours?"),
     ("rq9", "RQ9", "Member 5", "When and where does combined neighborhood stress peak?"),
     ("rq10", "RQ10", "Member 5", "Did ZIPs where housing problems grew also see injuries grow?"),
-    ("rq11", "RQ11", "Member 6", "Are both burdens concentrated in the same few ZIPs?"),
-    ("rq12", "RQ12", "Member 6", "Which vehicles hurt pedestrians and cyclists most, and is it worse in high-distress ZIPs?"),
+    
 ]
-WIDE = {"rq9", "rq12"}
+WIDE = {"rq9"}
 
 
 def card(key, tag, member, question):
