@@ -4,7 +4,7 @@ Reads the small pre-aggregated tables exported by the notebook (data/processed/)
 current filters when the user presses "Generate Report" (or submits a search query).
 """
 from __future__ import annotations
-from flask import Flask
+import Flask
 app = Flask(__name__)  # Vercel looks for this 'app' variable
 
 @app.route('/')
@@ -13,7 +13,7 @@ def home():
 
 import os
 import re
-from pathlib import Path
+import pathlib
 
 import numpy as np
 import pandas as pd
@@ -22,7 +22,7 @@ import plotly.graph_objects as go
 from dash import Dash, Input, Output, State, dash_table, dcc, html, no_update
 from scipy import stats
 
-ROOT = Path(__file__).parent
+ROOT = pathlib.Path(__file__).parent
 DATA = ROOT / "data" / "processed"
 DEMO = not (DATA / "zip_meta.csv").exists()
 if DEMO:  # no real export yet: run on the schema-matched synthetic sample so the site still works end to end
