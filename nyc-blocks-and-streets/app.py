@@ -561,7 +561,7 @@ def generate_report(_clicks, boroughs, year, cat, veh, metric):
     results = [
         fig_rq1(z, metric), fig_rq2(z, metric), fig_rq3(m), fig_rq4(boroughs, year, cat, veh), fig_rq5(boroughs, year, z),
         fig_rq6(boroughs, year, veh, z), fig_rq7(z), fig_rq8(boroughs, year, veh, z), fig_rq9(boroughs, year, cat, veh),
-        fig_rq10(boroughs, cat, veh), fig_rq11(z), fig_rq12(boroughs, year, z),
+        fig_rq10(boroughs, cat, veh),
     ]
     figs, notes = [r[0] for r in results], [r[1] for r in results]
 
@@ -580,7 +580,7 @@ def generate_report(_clicks, boroughs, year, cat, veh, metric):
                  f"show a {strength(pr)} link to street danger for people walking and cycling (ρ = {pr:+.2f}, {fmt_p(pp)})."]),
         html.Li([html.B("Double burden: "), notes[1]]),
         html.Li([html.B("Timing: "), notes[3]]),
-        html.Li([html.B("Concentration: "), notes[10]]),
+        html.Li([html.B("Peak stress: "), notes[8]]),
         html.Li([html.B("Response gap: "), notes[6]]),
     ]
     table = z.sort_values("hdi", ascending=False).head(15).assign(
