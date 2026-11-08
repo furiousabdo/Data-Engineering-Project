@@ -125,7 +125,22 @@ reporting, not conditions. Crashes are police-reported only, and crashes with no
 for residential stock. ZIP codes are postal routes, not neighborhoods, and ZIP-level results say nothing about any single household.
 
 ## Prompts used
-* *"Go through the project details and tell me the project requirements, choose the datasets Housing Maintenance Code Complaints and Problems (https://data.cityofnewyork.us/d/ygpa-z7cr) Motor Vehicle Collisions, Crashes(https://data.cityofnewyork.us/d/h9gi-nx95), make sure to go through the details
-  line by line, and for this project you are a professional data engineer and visualizer."* (Claude; dataset selection, pipeline and site
-  scaffolding, README draft. All code was reviewed and run by the team.)
-* *(add every further prompt the team used)*
+
+
+### Mohammed Walid 13003322
+
+1. ok we went with zip code. a lot of crashes are missing zip but have lat/lon. how can I fill those in without dropping rows? here's what I have
+2. how do I check if the filled zips are actually accurate?
+3. we aggregated both to zip x month and did an outer join. here's the output. what do left_only and right_only mean and how should I justify this granularity?
+4. for RQ1 I want to see if zips with more housing problems also have more crash injuries. bigger zips will have more of both though, so how do I control for that?
+5. here's my RQ1 result. help me interpret it in a few sentences
+6. for RQ2 I found these zips in the top 25% for both HDI and SDI, expected about these by chance. is that meaningful? how can I test it?
+
+### Abdelrahmam farajallah 13003482
+
+1. here's our date cleaning. how do I check for weird stuff, like lots of crashes at exactly midnight?
+2. after the outer join some zip-months are missing. should missing counts be 0 or NaN? what about rates?
+3. why would I need every zip to have all 24 months for time-series questions? here's our code
+4. for RQ3 I want to compare the seasonal pattern of housing problems vs crash injuries, but the numbers are on very different scales. how do I chart them without two y-axes?
+5. here's my RQ3 output. help me interpret it
+6. for RQ4 I want to know if bad housing months line up with bad crash months inside each zip, after removing seasonality. how would I do that? here's my output. what does it mean?
