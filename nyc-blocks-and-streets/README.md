@@ -144,3 +144,57 @@ for residential stock. ZIP codes are postal routes, not neighborhoods, and ZIP-l
 4. for RQ3 I want to compare the seasonal pattern of housing problems vs crash injuries, but the numbers are on very different scales. how do I chart them without two y-axes?
 5. here's my RQ3 output. help me interpret it
 6. for RQ4 I want to know if bad housing months line up with bad crash months inside each zip, after removing seasonality. how would I do that? here's my output. what does it mean?
+
+
+### Omar Turki, 19010638
+
+
+### Mostafa Eltatawi, 13007048
+
+
+### Ahmed Raslan – Member 5 (13005475)
+
+I am working on a Data Engineering and Visualization project called “Blocks & Streets – Where NYC Housing Distress Meets Street Danger.”
+
+The project integrates two NYC Open Data datasets:
+
+1. Housing: Housing Maintenance Code Complaints and Problems (ygpa-z7cr).
+2. Transportation: Motor Vehicle Collisions – Crashes (h9gi-nx95).
+
+The datasets are integrated at ZIP code × month granularity, covering January 2024 to December 2025.
+
+I am responsible for investigating the following two research questions:
+
+Research Question 9: When and where does combined neighborhood stress peak?
+
+Analyze the relationship between housing distress and street danger to identify the ZIP codes and months experiencing the highest levels of combined neighborhood stress.
+
+Research Question 10: Did ZIP codes where housing problems grew (2024 → 2025) also see injuries grow?
+
+Investigate whether ZIP codes experiencing an increase in housing problems between 2024 and 2025 also experienced an increase in transportation-related injuries.
+
+Your tasks:
+
+1. Inspect the integrated dataset and identify the relevant columns and existing metrics.
+2. Perform the necessary calculations to analyze housing distress and street danger across ZIP codes and months.
+3. Identify geographical and temporal patterns and highlight neighborhoods experiencing high levels of both problems.
+4. Compare housing problems and transportation-related injuries between 2024 and 2025 for each ZIP code.
+5. Calculate both absolute and percentage changes to avoid misleading comparisons.
+6. Investigate the relationship between changes in housing problems and injuries using appropriate statistical methods, such as Spearman correlation.
+7. Develop two interactive visualizations using Python and Plotly:
+    * RQ9: A heatmap showing combined neighborhood stress across ZIP codes and months.
+    * RQ10: A scatter plot comparing the percentage or absolute change in housing problems against the change in transportation-related injuries across ZIP codes.
+8. Explain the findings, identify significant patterns, and highlight important ZIP codes.
+9. Handle missing values, duplicate records, outliers, and zero baselines appropriately.
+10. Explain the limitations of the analysis and avoid making unsupported causal claims.
+
+Technical requirements:
+
+* Use Python, Pandas, NumPy, SciPy, and Plotly where appropriate.
+* Use the existing project dataset, column names, and metric definitions.
+* Ensure all calculations are reproducible and statistically justified.
+* Write clean, modular, and well-commented code.
+* Provide clear chart titles, axis labels, legends, and interactive hover information.
+* Ensure both visualizations can respond to the website’s filters and Generate Report functionality.
+
+The final objective is to determine when and where housing distress and street danger overlap, and whether worsening housing conditions are associated with increasing transportation-related injuries across NYC neighborhoods
