@@ -33,34 +33,6 @@ GIU · Data Engineering and Visualization · Winter 2026 · Project Milestone 1
 
 ---
 
-## Setup
-
-### 1. Run the notebook (produces the real data)
-1. Open `notebook/blocks_and_streets.ipynb` in **Google Colab** (File → Upload notebook) or Jupyter.
-2. *Optional:* set a free Socrata app token to avoid rate limits: `os.environ["SOCRATA_APP_TOKEN"] = "..."`.
-3. **Runtime → Run all.** The notebook downloads 24 monthly slices of each dataset through the SoQL API (about 15 to 30 minutes the first
-   time; cached as parquet afterwards), cleans, integrates, answers the 10 research questions and exports 5 small tables.
-4. In Colab the last cell downloads `processed.zip`. Unzip it into `data/processed/` in this repo and commit.
-
-### 2. Run the website locally
-```bash
-python -m venv .venv && source .venv/bin/activate      # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
-python app.py                                           # http://localhost:8050
-```
-If `data/processed/` is empty the site runs on `data/sample/` and shows a **Demo mode** banner.
-
-### 3. Deploy (Render, free tier)
-1. Push the repo to GitHub (with `data/processed/` committed).
-2. On [render.com](https://render.com): **New → Blueprint**, pick the repo. `render.yaml` configures everything
-   (build `pip install -r requirements.txt`, start `gunicorn app:server`).
-   *Manual alternative:* **New → Web Service**, runtime Python, same build and start commands.
-3. Wait for the build, open the URL, press **Generate Report**, try a search, and paste the URL into this README and the submission email.
-
-Free Render instances sleep after inactivity; the first request after a pause takes about 30 to 60 seconds.
-
----
-
 ## Website features (rubric checklist)
 
 | Requirement | Where |
